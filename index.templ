@@ -1,0 +1,27 @@
+package main 
+
+templ index(contacts []Contact) {
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Document</title>
+    </head>
+    <body>
+      <h1>GO ROLODEX</h1>
+      <ul id="contacts">
+        for _, c:= range contacts{
+          @contact(c)
+        }
+      </ul>
+      <form method='post' action='/' hx-post="/"  hx-target="#contacts" hx-swap="beforeend">
+        <label for='name'>Name</label>
+        <input id="name" name="name" />
+        <label for='phone'>Phone</label>
+        <input id="phone" name="phone" />
+        <button>Submit</button>
+      </form>
+      <script src="https://unpkg.com/htmx.org@2.0.1"></script>
+    </body>
+  </html>
+}

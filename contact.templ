@@ -1,0 +1,15 @@
+package main
+
+import "strconv"
+
+
+func getId(contact Contact) string {
+  return strconv.FormatInt(int64(contact.ID), 10)
+}
+
+templ contact(contact Contact) {
+  <li id={"contact" + getId(contact)}>
+    {getId(contact)} { contact.Name } {contact.Phone}
+    <button hx-swap="outerHTML" hx-target={"#contact" + getId(contact)} hx-delete={"/" + getId(contact)}>Delete</button> 
+  </li>
+}
