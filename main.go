@@ -6,8 +6,6 @@ import (
 	"net/http"
 	"strconv"
 
-	// "net/http"
-
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
 	_ "github.com/mattn/go-sqlite3"
@@ -34,6 +32,10 @@ func main() {
 
 	// Router
 	app := echo.New()
+
+	// Middleware
+
+	app.Static("/static", "static")
 
 	// Get contacts
 	app.GET("/", func(c echo.Context) error {
@@ -64,10 +66,24 @@ func main() {
 		return render(c, index(contacts))
 	})
 
+	app.GET("/edit/:id", func(c echo.Context) error {
+		id := c.Param("id")
+
+		result := db.QueryRow("select * from contact where id = ?;", id)
+
+		var contact Contact
+		err := result.Scan(&contact.ID, &contact.Name, &contact.Phone)
+		if err != nil {
+			return echo.NewHTTPError(http.StatusNotFound, "Something went wrong")
+		}
+
+		return render(c, contactListItem(contact, true))
+	})
+
 	app.POST("/", func(c echo.Context) error {
 		err := c.Request().ParseForm()
 		if err != nil {
-			return echo.NewHTTPError(http.StatusNotFound, "Please provide form data")
+			return echo.NewHTTPError(http.StatusNotFound, "Something went wrong")
 		}
 
 		name := c.Request().FormValue("name")
@@ -75,17 +91,17 @@ func main() {
 
 		result, err := db.Exec("insert into contact (name, phone) values (?, ?);", name, phone)
 		if err != nil {
-			return echo.NewHTTPError(http.StatusNotFound, "Please provide form data")
+			return echo.NewHTTPError(http.StatusNotFound, "Something went wrong")
 		}
 
 		id, err := result.LastInsertId()
 		if err != nil {
-			return echo.NewHTTPError(http.StatusNotFound, "Please provide form data")
+			return echo.NewHTTPError(http.StatusNotFound, "Something went wrong")
 		}
 
 		newContact := Contact{id, name, phone}
 
-		return render(c, contact(newContact))
+		return render(c, contactListItem(newContact, false))
 	})
 
 	app.PUT("/:id", func(c echo.Context) error {
@@ -96,17 +112,17 @@ func main() {
 
 		_, err := db.Exec("update contact set name = ?, phone = ? where id = ?;", name, phone, id)
 		if err != nil {
-			return echo.NewHTTPError(http.StatusNotFound, "Please provide form data")
+			return echo.NewHTTPError(http.StatusNotFound, "Something went wrong")
 		}
 
 		idInt, err := strconv.ParseInt(id, 10, 64)
 		if err != nil {
-			return echo.NewHTTPError(http.StatusNotFound, "Please provide form data")
+			return echo.NewHTTPError(http.StatusNotFound, "Something went wrong")
 		}
 
 		newContact := Contact{idInt, name, phone}
 
-		return render(c, contact(newContact))
+		return render(c, contactListItem(newContact, false))
 	})
 
 	app.DELETE("/:id", func(c echo.Context) error {
@@ -114,7 +130,7 @@ func main() {
 
 		_, err := db.Exec("delete from contact where id = ?;", id)
 		if err != nil {
-			return echo.NewHTTPError(http.StatusNotFound, "Please provide form data")
+			return echo.NewHTTPError(http.StatusNotFound, "Something went wrong")
 		}
 
 		return nil

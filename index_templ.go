@@ -26,17 +26,25 @@ func index(contacts []Contact) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Document</title></head><body><h1>GO ROLODEX</h1><ul id=\"contacts\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" type=\"text/css\" href=\"/static/style.css\"><title>Document</title></head><body><h1>GO ROLODEX</h1><table><thead><tr><th>Name</th><th>Phone</th><th></th></tr></thead> <tbody id=\"contacts\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		for _, c := range contacts {
-			templ_7745c5c3_Err = contact(c).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = contactListItem(c, false).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul><form method=\"post\" action=\"/\" hx-post=\"/\" hx-target=\"#contacts\" hx-swap=\"beforeend\"><label for=\"name\">Name</label> <input id=\"name\" name=\"name\"> <label for=\"phone\">Phone</label> <input id=\"phone\" name=\"phone\"> <button>Submit</button></form><script src=\"https://unpkg.com/htmx.org@2.0.1\"></script></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</tbody></table><h3>Creact new contact</h3><form class=\"new-contact-form\" method=\"post\" action=\"/\" hx-post=\"/\" hx-target=\"#contacts\" hx-swap=\"beforeend\"><label for=\"name\">Name</label> <input id=\"name\" name=\"name\"><br><label for=\"phone\">Phone</label> <input id=\"phone\" name=\"phone\"><br><button>Submit")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = spinner("white").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button></form><script src=\"https://unpkg.com/htmx.org@2.0.1\"></script></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

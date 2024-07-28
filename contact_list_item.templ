@@ -1,0 +1,44 @@
+package main
+
+import "strconv"
+
+func getId(c Contact) string {
+  return strconv.FormatInt(int64(c.ID), 10)
+}
+
+templ contactListItem(c Contact, isEditing bool) {
+  if isEditing{
+    <tr id={"contact" + getId(c)}>
+      <form>
+        <td>
+          <input name="name" value={c.Name} />
+        </td>
+        <td>
+          <input name="phone" value={c.Phone} />
+        </td>
+        <td>
+          <button hx-put={"/" + getId(c)} hx-target={"#contact" + getId(c)} hx-swap="outerHTML" hx-include="closest tr">
+          Save
+          @spinner("white")
+          </button> 
+          <button hx-swap="outerHTML" hx-target={"#contact" + getId(c)} hx-delete={"/" + getId(c)}>Delete</button> 
+        </td>
+      </form>
+    </tr>
+  } else {
+    <tr id={"contact" + getId(c)}>
+      <td>{c.Name}</td>
+      <td>{c.Phone}</td>
+      <td>
+        <button hx-swap="outerHTML" hx-target={"#contact" + getId(c)} hx-get={"/edit/" + getId(c)}>
+          Edit
+          @spinner("white")
+        </button> 
+        <button hx-swap="outerHTML" hx-target={"#contact" + getId(c)} hx-delete={"/" + getId(c)}>
+          Delete
+          @spinner("white")
+        </button> 
+      </td>
+    </tr>
+  }
+}

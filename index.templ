@@ -5,21 +5,39 @@ templ index(contacts []Contact) {
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" type="text/css" href="/static/style.css"  />
       <title>Document</title>
     </head>
     <body>
       <h1>GO ROLODEX</h1>
-      <ul id="contacts">
-        for _, c:= range contacts{
-          @contact(c)
-        }
-      </ul>
-      <form method='post' action='/' hx-post="/"  hx-target="#contacts" hx-swap="beforeend">
-        <label for='name'>Name</label>
-        <input id="name" name="name" />
-        <label for='phone'>Phone</label>
-        <input id="phone" name="phone" />
-        <button>Submit</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="contacts">
+          for _, c:= range contacts{
+            @contactListItem(c, false)
+          }
+        </tbody>
+      </table>
+
+
+      <h3>Creact new contact</h3>
+      <form class="new-contact-form" method='post' action='/' hx-post="/"  hx-target="#contacts" hx-swap="beforeend">
+          <label for='name'>Name</label>
+          <input id="name" name="name" />
+          <br/>
+          <label for='phone'>Phone</label>
+          <input id="phone" name="phone" />
+          <br/>
+          <button>
+            Submit
+            @spinner("white")
+          </button>
       </form>
       <script src="https://unpkg.com/htmx.org@2.0.1"></script>
     </body>
