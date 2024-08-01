@@ -1,0 +1,19 @@
+<tr id=\"
+\"><form><td><input name=\"name\" value=\"
+\"></td><td><input name=\"phone\" value=\"
+\"></td><td><button hx-put=\"
+\" hx-target=\"
+\" hx-swap=\"outerHTML\" hx-include=\"closest tr\">Save
+</button> <button hx-swap=\"outerHTML\" hx-target=\"
+\" hx-delete=\"
+\">Delete</button></td></form></tr>
+<tr id=\"
+\"><td>
+</td><td>
+</td><td><button hx-swap=\"outerHTML\" hx-target=\"
+\" hx-get=\"
+\">Edit
+</button> <button hx-swap=\"outerHTML\" hx-target=\"
+\" hx-delete=\"
+\">Delete
+</button></td></tr>

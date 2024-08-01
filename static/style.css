@@ -47,6 +47,7 @@ input {
   border: none;
   background: whitesmoke;
   border-radius: 0.25rem;
+  width: 100%;
 }
 
 .new-contact-form {
@@ -59,4 +60,8 @@ h1 {
 
 label {
   display: block;
+}
+
+.create-container {
+  /* background: red; */
 }

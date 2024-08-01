@@ -26,19 +26,22 @@ templ index(contacts []Contact) {
       </table>
 
 
-      <h3>Creact new contact</h3>
-      <form class="new-contact-form" method='post' action='/' hx-post="/"  hx-target="#contacts" hx-swap="beforeend">
-          <label for='name'>Name</label>
-          <input id="name" name="name" />
-          <br/>
-          <label for='phone'>Phone</label>
-          <input id="phone" name="phone" />
-          <br/>
-          <button>
-            Submit
-            @spinner("white")
-          </button>
-      </form>
+      <div class="create-container">
+        <h3>Creact new contact</h3>
+        <form class="new-contact-form" method='post' action='/' hx-post="/"  hx-target="#contacts" hx-swap="beforeend">
+            <label for='name'>Name</label>
+            <input id="name" name="name" />
+            <br/>
+            <label for='phone'>Phone</label>
+            <input id="phone" name="phone" />
+            <br/>
+            <button>
+              Submit
+              @spinner("white")
+            </button>
+        </form>
+      </div>
+
       <script src="https://unpkg.com/htmx.org@2.0.1"></script>
     </body>
   </html>

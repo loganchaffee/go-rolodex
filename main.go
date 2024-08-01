@@ -55,6 +55,8 @@ func main() {
 				log.Fatal(err)
 			}
 
+			// contact.Name = "Overwritten"
+
 			contacts = append(contacts, contact)
 		}
 		err = rows.Err()
